@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Personal Profile</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0b1020;
+      --card: rgba(255,255,255,0.07);
+      --text: #f1f5f9;
+      --muted: #a8b2c5;
+      --accent: #8b5cf6;
+      --border: rgba(255,255,255,0.13);
+    }
+
+    body.light {
+      --bg: #eef2ff;
+      --card: rgba(255,255,255,0.8);
+      --text: #172033;
+      --muted: #64748b;
+      --accent: #6d28d9;
+      --border: rgba(30,41,59,0.12);
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, #352064 0, transparent 35%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: 0.3s;
+    }
+
+    nav {
+      max-width: 1000px;
+      margin: auto;
+      padding: 24px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 850px;
+      margin: 35px auto;
+      padding: 20px;
+    }
+
+    .profile {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 35px;
+      text-align: center;
+      backdrop-filter: blur(15px);
+      animation: appear 0.8s ease;
+    }
+
+    .avatar {
+      width: 145px;
+      height: 145px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--accent);
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(139,92,246,0.17);
+      color: var(--text);
+      padding: 7px 13px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 22px;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .socials a {
+      text-decoration: none;
+      color: white;
+      background: var(--accent);
+      padding: 11px 17px;
+      border-radius: 10px;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .socials a:hover {
+      transform: translateY(-3px);
+      opacity: 0.85;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 27px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      animation: appear 1s ease;
+    }
+
+    .section h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section h2 span {
+      color: var(--accent);
+    }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .bio-item {
+      padding: 15px;
+      border-radius: 12px;
+      background: rgba(127,127,127,0.08);
+      border: 1px solid var(--border);
+    }
+
+    .bio-item small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .bio-item p {
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    .hobbies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hobby {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: var(--text);
+      background: rgba(139,92,246,0.12);
+    }
+
+    .quote {
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 550px) {
+      main {
+        margin-top: 10px;
+        padding: 14px;
+      }
+
+      .profile {
+        padding: 27px 18px;
+      }
+
+      .section {
+        padding: 20px;
+      }
+
+      .bio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="logo">MY<span>PROFILE.</span></div>
+    <button id="themeBtn" onclick="toggleTheme()">
+      🌙 Ganti Tema
+    </button>
+  </nav>
+
+  <main>
+    <section class="profile">
+      <!-- Ganti URL gambar dengan foto kamu -->
+      <img
+        class="avatar"
+        src="https://placehold.co/300x300/8b5cf6/ffffff?text=YOUR+PHOTO"
+        alt="Foto profil"
+      >
+
+      <div class="tag">✦ PERSONAL WEBSITE ✦</div>
+
+      <!-- Ganti nama dan deskripsi di bawah -->
+      <h1 id="nama">Nama Kamu</h1>
+
+      <p class="intro">
+        Halo! Saya adalah seseorang yang suka belajar hal baru,
+        mengembangkan kreativitas, dan mencoba pengalaman menarik.
+        Selamat datang di website profil pribadi saya!
+      </p>
+
+      <div class="socials">
+        <a href="https://instagram.com/" target="_blank"
+           rel="noopener noreferrer">Instagram ↗</a>
+        <a href="https://github.com/" target="_blank"
+           rel="noopener noreferrer">GitHub ↗</a>
+        <a href="#biodata">Biodata ↓</a>
+      </div>
+    </section>
+
+    <section class="section" id="biodata">
+      <h2><span>01.</span> Biodata Diri</h2>
+
+      <div class="bio-grid">
+        <div class="bio-item">
+          <small>Nama Lengkap</small>
+          <p>Nama Kamu</p>
+        </div>
+
+        <div class="bio-item">
+          <small>Tempat, Tanggal Lahir</small>
+          <p>Kota, DD Bulan YYYY</p>
+        </div>
+
+        <div class="bio-item">
+          <small>Jenis Kelamin</small>
+          <p>Isi di sini</p>
+        </div>
+
+        <div class="bio-item">
+          <small>Alamat</small>
+          <p>Kota Kamu</p>
+        </div>
+
+        <div class="bio-item">
+          <small>Status</small>
+          <p>Pelajar</p>
+        </div>
+
+        <div class="bio-item">
+          <small>Cita-cita</small>
+          <p>Cita-cita Kamu</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span>02.</span> Hobi & Minat</h2>
+
+      <div class="hobbies">
+        <div class="hobby">🎸 Bermain Musik</div>
+        <div class="hobby">🎮 Bermain Game</div>
+        <div class="hobby">🎌 Menonton Anime</div>
+        <div class="hobby">💻 Teknologi</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span>03.</span> Motto Hidup</h2>
+
+      <p class="quote">
+        "Jangan takut untuk memulai. Setiap langkah kecil
+        adalah bagian dari perjalanan menuju kesuksesan."
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> My Profile. Dibuat dengan ❤️</p>
+    <p style="margin-top: 8px;">HTML • CSS • JavaScript</p>
+  </footer>
+
+  <script>
+    // Mengatur tahun secara otomatis
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // Mengganti tema gelap dan terang
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+
+      const isLight =
+        document.body.classList.contains("light");
+
+      document.getElementById("themeBtn").textContent =
+        isLight ? "☀️ Mode Terang" : "🌙 Mode Gelap";
+    }
+  </script>
+</body>
+</html>
