@@ -1,327 +1,833 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0b14">
-  <meta name="description" content="Website biodata dan profil pribadi saya">
-  <title>My Profile | Biodata Diri</title>
+  <meta name="theme-color" content="#090914">
+  <meta name="description" content="Website profil diri dan portofolio pribadi.">
+  <title>My Portfolio | Profil Diri</title>
 
   <style>
+    /* ===== PENGATURAN DASAR ===== */
+    :root {
+      --bg: #090914;
+      --card: #131326;
+      --text: #f5f3ff;
+      --muted: #aaa8c2;
+      --accent: #a78bfa;
+      --accent2: #7c3aed;
+      --border: rgba(255,255,255,.10);
+    }
+
+    body.light {
+      --bg: #f6f5ff;
+      --card: #ffffff;
+      --text: #171329;
+      --muted: #65617b;
+      --accent: #7c3aed;
+      --accent2: #6d28d9;
+      --border: rgba(20,10,50,.12);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-
-    :root {
-      --bg: #0b0b14;
-      --card: #151522;
-      --text: #f5f3ff;
-      --muted: #aaa6c3;
-      --accent: #a78bfa;
-      --border: #29263d;
-    }
-
-    body.light {
-      --bg: #f5f3ff;
-      --card: #ffffff;
-      --text: #211b35;
-      --muted: #6b6480;
-      --accent: #7c3aed;
-      --border: #e5def7;
+      scroll-behavior: smooth;
     }
 
     body {
+      font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
       color: var(--text);
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
+      line-height: 1.7;
       transition: background .3s, color .3s;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
     .container {
-      width: min(900px, 92%);
+      width: min(1100px, 90%);
       margin: auto;
     }
 
+    .accent {
+      color: var(--accent);
+    }
+
+    .section {
+      padding: 85px 0;
+      scroll-margin-top: 75px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(27px, 5vw, 38px);
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      text-align: center;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 38px;
+    }
+
+    /* ===== NAVIGASI ===== */
     header {
-      padding: 22px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
       border-bottom: 1px solid var(--border);
     }
 
     nav {
+      min-height: 68px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      align-items: center;
+      gap: 15px;
     }
 
     .logo {
       font-size: 21px;
-      font-weight: bold;
+      font-weight: 800;
+      letter-spacing: 1px;
     }
 
-    .logo span {
-      color: var(--accent);
-    }
-
-    button {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 55px 20px 35px;
-    }
-
-    .avatar {
-      width: 125px;
-      height: 125px;
-      border-radius: 50%;
-      border: 3px solid var(--accent);
-      background: var(--card);
+    .nav-right {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 55px;
-      margin: 0 auto 20px;
-      box-shadow: 0 0 30px #a78bfa30;
+      gap: 15px;
     }
 
-    .label {
-      display: inline-block;
-      padding: 5px 12px;
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      color: var(--accent);
-      font-size: 12px;
-      margin-bottom: 15px;
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      list-style: none;
     }
 
-    h1 {
-      font-size: clamp(30px, 7vw, 44px);
-      margin-bottom: 10px;
-    }
-
-    .description {
+    .nav-links a {
+      font-size: 13px;
       color: var(--muted);
-      max-width: 500px;
-      margin: 0 auto 22px;
+      transition: color .2s;
     }
 
-    .section {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
-      margin: 18px 0;
-      animation: fadeIn .7s ease both;
-    }
-
-    h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-
-    h2 span {
+    .nav-links a:hover {
       color: var(--accent);
     }
 
-    .bio-grid {
+    .theme-btn, .menu-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 8px 11px;
+      border-radius: 10px;
+    }
+
+    .menu-btn {
+      display: none;
+    }
+
+    /* ===== HERO / BERANDA ===== */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: var(--accent2);
+      filter: blur(150px);
+      opacity: .23;
+      top: 15%;
+      right: 5%;
+      pointer-events: none;
+    }
+
+    .hero-content {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1.3fr .7fr;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 65px);
+      line-height: 1.15;
+      margin: 15px 0;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 550px;
+      margin-bottom: 25px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
       gap: 12px;
     }
 
-    .bio-item {
-      padding: 14px;
+    .btn {
+      display: inline-block;
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid var(--accent);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px #7c3aed35;
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--accent2);
+      border-color: var(--accent2);
+    }
+
+    .profile-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-frame {
+      width: min(270px, 75vw);
+      aspect-ratio: 1;
+      border: 2px solid var(--accent);
+      border-radius: 35% 65% 60% 40% / 40% 35% 65% 60%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #7c3aed55, #131326);
+      box-shadow: 0 0 45px #8b5cf633;
+      overflow: hidden;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .profile-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-placeholder {
+      font-size: 75px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* ===== KARTU DAN GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 18px;
+      transition: transform .25s, border-color .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+
+    .card-icon {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* ===== BIODATA ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .bio-list {
+      list-style: none;
+    }
+
+    .bio-list li {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .bio-list strong {
+      min-width: 115px;
+    }
+
+    .bio-list span {
+      color: var(--muted);
       overflow-wrap: anywhere;
     }
 
-    .bio-item small {
-      display: block;
-      color: var(--muted);
-      margin-bottom: 5px;
+    /* ===== KEAHLIAN ===== */
+    .skill {
+      margin-bottom: 22px;
     }
 
-    .bio-item p {
-      font-weight: bold;
-    }
-
-    .hobbies {
+    .skill-info {
       display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .skill-track {
+      height: 8px;
+      border-radius: 20px;
+      background: var(--border);
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 20px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width 1.2s ease;
+    }
+
+    /* ===== GALERI ===== */
+    .gallery-item {
+      min-height: 155px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #7c3aed25, var(--card));
+    }
+
+    .gallery-item span {
+      font-size: 38px;
+    }
+
+    /* ===== KONTAK ===== */
+    .contact-box {
+      max-width: 650px;
+      margin: auto;
+      text-align: center;
+      padding: 35px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      margin: 12px 0 22px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .hobby {
-      padding: 9px 13px;
-      background: #a78bfa15;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-    }
-
-    .motto {
-      text-align: center;
-      color: var(--muted);
-      font-style: italic;
-    }
-
     footer {
+      padding: 25px 0;
+      border-top: 1px solid var(--border);
       text-align: center;
-      padding: 30px 10px;
       color: var(--muted);
       font-size: 13px;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* ===== ANIMASI SCROLL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .7s, transform .7s;
     }
 
-    @media (max-width: 480px) {
-      .bio-grid {
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE HP ===== */
+    @media (max-width: 760px) {
+      .menu-btn {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        padding: 20px 5%;
+        flex-direction: column;
+        gap: 15px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 70px 0;
+      }
+
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .profile-wrap {
+        grid-row: 1;
+      }
+
+      .profile-frame {
+        width: 190px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-grid {
         grid-template-columns: 1fr;
       }
 
       .section {
-        padding: 18px;
+        padding: 65px 0;
       }
 
-      .hero {
-        padding-top: 38px;
+      .contact-box {
+        padding: 25px 18px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
+        scroll-behavior: auto !important;
         animation: none !important;
         transition: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
       }
     }
   </style>
 </head>
 
 <body>
+  <!-- ===== HEADER ===== -->
   <header>
     <nav class="container">
-      <div class="logo">MY<span>PROFILE.</span></div>
-      <button id="themeButton" type="button">
-        🌙 Ganti Tema
-      </button>
+      <a href="#home" class="logo">MY<span class="accent">PORTO.</span></a>
+
+      <div class="nav-right">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home">Beranda</a></li>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#biodata">Biodata</a></li>
+          <li><a href="#skills">Keahlian</a></li>
+          <li><a href="#gallery">Galeri</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+
+        <button class="theme-btn" id="themeBtn"
+          aria-label="Ganti tema">☀️</button>
+        <button class="menu-btn" id="menuBtn"
+          aria-label="Buka menu" aria-expanded="false">☰</button>
+      </div>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="avatar" aria-label="Ikon profil">👤</div>
+  <main>
+    <!-- ===== BERANDA ===== -->
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <span class="eyebrow">Welcome to my portfolio</span>
+          <h1>Halo, saya <span class="accent">Nama Kamu</span></h1>
+          <h3>Saya seorang <span class="accent" id="typedText">Pelajar</span></h3>
+          <p>
+            Selamat datang di website pribadi saya.
+            Di sini kamu bisa mengenal saya, melihat keahlian,
+            pengalaman, serta hal-hal yang saya sukai.
+          </p>
 
-      <div class="label">PERSONAL WEBSITE</div>
+          <div class="hero-buttons">
+            <a href="#about" class="btn btn-primary">Kenali Saya ↗</a>
+            <a href="#contact" class="btn">Hubungi Saya</a>
+          </div>
+        </div>
 
-      <!-- Ganti data ini sesuai biodata kamu -->
-      <h1>Nama Kamu</h1>
-
-      <p class="description">
-        Halo! Selamat datang di website pribadi saya.
-        Saya senang belajar hal baru, mengembangkan kreativitas,
-        dan mengejar cita-cita.
-      </p>
+        <div class="profile-wrap">
+          <div class="profile-frame">
+            <!-- Ganti foto-profil.jpg dengan foto milikmu -->
+            <img src="foto-profil.jpg" alt="Foto profil"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="profile-placeholder" style="display:none">👤</span>
+          </div>
+        </div>
+      </div>
     </section>
 
+    <!-- ===== TENTANG SAYA ===== -->
+    <section class="section" id="about">
+      <div class="container reveal">
+        <h2 class="section-title">Tentang <span class="accent">Saya</span></h2>
+        <p class="section-desc">
+          Sedikit cerita tentang siapa saya dan apa yang saya sukai.
+        </p>
+
+        <div class="about-grid">
+          <div class="about-text">
+            <h3>Kenalan, yuk! 👋</h3>
+            <p>
+              Halo! Saya <strong>Nama Kamu</strong>, seorang pelajar
+              yang senang belajar hal baru, mengembangkan kemampuan,
+              dan mencoba pengalaman yang bermanfaat.
+            </p>
+            <p>
+              Saya percaya bahwa setiap langkah kecil adalah bagian
+              dari perjalanan menuju masa depan yang lebih baik.
+              Website ini menjadi tempat untuk memperkenalkan diri
+              dan mendokumentasikan perjalanan saya.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>✨ Fakta Tentang Saya</h3>
+            <ul class="bio-list">
+              <li><strong>Hobi</strong><span>Musik, belajar, dan bermain game</span></li>
+              <li><strong>Kepribadian</strong><span>Ramah dan penuh semangat</span></li>
+              <li><strong>Minat</strong><span>Teknologi dan kreativitas</span></li>
+              <li><strong>Tujuan</strong><span>Terus berkembang dan berkarya</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BIODATA ===== -->
     <section class="section" id="biodata">
-      <h2><span>01.</span> Biodata Diri</h2>
+      <div class="container reveal">
+        <h2 class="section-title">Biodata <span class="accent">Diri</span></h2>
+        <p class="section-desc">
+          Informasi singkat tentang identitas saya.
+        </p>
 
-      <div class="bio-grid">
-        <div class="bio-item">
-          <small>Nama Lengkap</small>
-          <p>Nama Kamu</p>
-        </div>
-
-        <div class="bio-item">
-          <small>Tempat, Tanggal Lahir</small>
-          <p>Kota, tanggal lahir</p>
-        </div>
-
-        <div class="bio-item">
-          <small>Jenis Kelamin</small>
-          <p>Isi di sini</p>
-        </div>
-
-        <div class="bio-item">
-          <small>Asal Sekolah</small>
-          <p>Nama Sekolah</p>
-        </div>
-
-        <div class="bio-item">
-          <small>Hobi</small>
-          <p>Musik dan teknologi</p>
-        </div>
-
-        <div class="bio-item">
-          <small>Cita-cita</small>
-          <p>Cita-cita kamu</p>
+        <div class="card">
+          <ul class="bio-list">
+            <li><strong>Nama</strong><span>Nama Lengkap Kamu</span></li>
+            <li><strong>Nama Panggilan</strong><span>Nama Panggilan</span></li>
+            <li><strong>Status</strong><span>Pelajar</span></li>
+            <li><strong>Sekolah</strong><span>Nama Sekolah</span></li>
+            <li><strong>Kota</strong><span>Kota Tempat Tinggal</span></li>
+            <li><strong>Motto</strong><span>Terus belajar, terus berkembang.</span></li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <h2><span>02.</span> Hobi & Minat</h2>
+    <!-- ===== KEAHLIAN ===== -->
+    <section class="section" id="skills">
+      <div class="container reveal">
+        <h2 class="section-title">Keahlian & <span class="accent">Minat</span></h2>
+        <p class="section-desc">
+          Beberapa bidang yang sedang saya pelajari dan kembangkan.
+        </p>
 
-      <div class="hobbies">
-        <div class="hobby">🎸 Bermain Musik</div>
-        <div class="hobby">🎮 Bermain Game</div>
-        <div class="hobby">🎌 Menonton Anime</div>
-        <div class="hobby">💻 Teknologi</div>
+        <div class="grid">
+          <div class="card">
+            <div class="card-icon">💻</div>
+            <h3>Teknologi</h3>
+            <p>Belajar teknologi digital dan dasar pembuatan website.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎨</div>
+            <h3>Kreativitas</h3>
+            <p>Mengembangkan ide, desain, dan karya kreatif.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🤝</div>
+            <h3>Kerja Sama</h3>
+            <p>Belajar berkomunikasi dan bekerja bersama tim.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <h3 style="margin-bottom:20px">Sedang Saya Pelajari</h3>
+
+          <div class="skill">
+            <div class="skill-info"><span>HTML & CSS</span><span>Dasar</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="45%"></div></div>
+          </div>
+
+          <div class="skill">
+            <div class="skill-info"><span>JavaScript</span><span>Dasar</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="25%"></div></div>
+          </div>
+
+          <div class="skill">
+            <div class="skill-info"><span>Komunikasi</span><span>Terus berkembang</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="60%"></div></div>
+          </div>
+          <p style="font-size:12px;color:var(--muted)">
+            Persentase hanya contoh tampilan. Sesuaikan dengan kemampuanmu.
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="section">
-      <h2><span>03.</span> Motto Hidup</h2>
+    <!-- ===== PENGALAMAN ===== -->
+    <section class="section" id="experience">
+      <div class="container reveal">
+        <h2 class="section-title">Pengalaman & <span class="accent">Prestasi</span></h2>
+        <p class="section-desc">
+          Cerita perjalanan, kegiatan, dan pencapaian saya.
+        </p>
 
-      <p class="motto">
-        "Terus belajar, berani mencoba, dan jangan menyerah
-        untuk menjadi lebih baik."
-      </p>
+        <div class="grid">
+          <div class="card">
+            <div class="card-icon">🏫</div>
+            <h3>Pengalaman Sekolah</h3>
+            <p>Tambahkan kegiatan atau pengalaman berkesan di sekolah.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🏆</div>
+            <h3>Prestasi</h3>
+            <p>Tambahkan penghargaan atau pencapaian yang pernah diraih.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🌱</div>
+            <h3>Pengembangan Diri</h3>
+            <p>Catat keterampilan baru dan hal yang sedang dipelajari.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== GALERI ===== -->
+    <section class="section" id="gallery">
+      <div class="container reveal">
+        <h2 class="section-title">Galeri <span class="accent">Saya</span></h2>
+        <p class="section-desc">
+          Kumpulan kegiatan, karya, dan momen favorit.
+        </p>
+
+        <div class="grid">
+          <div class="card gallery-item">
+            <span>📸</span>
+            <h3>Momen Saya</h3>
+            <p>Tambahkan foto kegiatan di sini.</p>
+          </div>
+          <div class="card gallery-item">
+            <span>🎸</span>
+            <h3>Hobi</h3>
+            <p>Tambahkan dokumentasi hobi.</p>
+          </div>
+          <div class="card gallery-item">
+            <span>🚀</span>
+            <h3>Karya Saya</h3>
+            <p>Tambahkan hasil karya atau proyek.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== KONTAK ===== -->
+    <section class="section" id="contact">
+      <div class="container reveal">
+        <h2 class="section-title">Hubungi <span class="accent">Saya</span></h2>
+        <p class="section-desc">
+          Terhubung melalui media sosial yang ingin saya bagikan.
+        </p>
+
+        <div class="contact-box">
+          <h3>Mari Terhubung! 🤝</h3>
+          <p>
+            Punya pertanyaan atau ingin melihat karya saya?
+            Kamu bisa mengunjungi tautan di bawah ini.
+          </p>
+
+          <div class="contact-links">
+            <!-- Ganti # dengan URL akun milikmu -->
+            <a class="btn btn-primary" href="#" data-placeholder-link>Instagram ↗</a>
+            <a class="btn" href="#" data-placeholder-link>GitHub ↗</a>
+            <a class="btn" href="#" data-placeholder-link>Email ↗</a>
+          </div>
+          <p id="contactNotice" style="font-size:12px;margin-bottom:0"></p>
+        </div>
+      </div>
     </section>
   </main>
 
+  <!-- ===== FOOTER ===== -->
   <footer>
-    <p>© <span id="year"></span> My Profile</p>
-    <p>Dibuat dengan HTML, CSS, dan JavaScript.</p>
+    <div class="container">
+      <p>© <span id="year"></span> Nama Kamu. Dibuat dengan 💜 dan semangat.</p>
+    </div>
   </footer>
 
   <script>
-    // Tahun otomatis
+    // ===== MENU RESPONSIF =====
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+
+    menuBtn.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+      menuBtn.textContent = isOpen ? "✕" : "☰";
+    });
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "☰";
+      });
+    });
+
+    // ===== GANTI TEMA =====
+    const themeBtn = document.getElementById("themeBtn");
+
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      const isLight = document.body.classList.contains("light");
+      themeBtn.textContent = isLight ? "🌙" : "☀️";
+      themeBtn.setAttribute(
+        "aria-label",
+        isLight ? "Gunakan tema gelap" : "Gunakan tema terang"
+      );
+    });
+
+    // ===== EFEK TEKS BERGANTI =====
+    const words = ["Pelajar", "Kreator", "Pembelajar"];
+    const typedText = document.getElementById("typedText");
+    let wordIndex = 0;
+
+    setInterval(() => {
+      wordIndex = (wordIndex + 1) % words.length;
+      typedText.style.opacity = 0;
+
+      setTimeout(() => {
+        typedText.textContent = words[wordIndex];
+        typedText.style.opacity = 1;
+      }, 200);
+    }, 2200);
+
+    // ===== ANIMASI SAAT SCROLL =====
+    const revealElements = document.querySelectorAll(".reveal");
+    const skillFills = document.querySelectorAll(".skill-fill");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+
+            entry.target.querySelectorAll(".skill-fill").forEach(fill => {
+              fill.style.width = fill.dataset.width;
+            });
+
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealElements.forEach(el => observer.observe(el));
+    } else {
+      revealElements.forEach(el => el.classList.add("visible"));
+      skillFills.forEach(fill => {
+        fill.style.width = fill.dataset.width;
+      });
+    }
+
+    // ===== TAHUN OTOMATIS =====
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
-    // Tombol tema
-    const themeButton = document.getElementById("themeButton");
-
-    themeButton.addEventListener("click", function () {
-      document.body.classList.toggle("light");
-
-      const lightMode =
-        document.body.classList.contains("light");
-
-      themeButton.textContent = lightMode
-        ? "☀️ Mode Terang"
-        : "🌙 Ganti Tema";
+    // ===== PENANDA TAUTAN KONTAK YANG BELUM DIISI =====
+    document.querySelectorAll("[data-placeholder-link]").forEach(link => {
+      link.addEventListener("click", event => {
+        if (link.getAttribute("href") === "#") {
+          event.preventDefault();
+          document.getElementById("contactNotice").textContent =
+            "Tautan ini belum diatur. Ganti URL pada kode HTML.";
+        }
+      });
     });
   </script>
 </body>
