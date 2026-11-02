@@ -1,834 +1,723 @@
-
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#090914">
-  <meta name="description" content="Website profil diri dan portofolio pribadi.">
-  <title>My Portfolio | Profil Diri</title>
-
-  <style>
-    /* ===== PENGATURAN DASAR ===== */
-    :root {
-      --bg: #090914;
-      --card: #131326;
-      --text: #f5f3ff;
-      --muted: #aaa8c2;
-      --accent: #a78bfa;
-      --accent2: #7c3aed;
-      --border: rgba(255,255,255,.10);
-    }
-
-    body.light {
-      --bg: #f6f5ff;
-      --card: #ffffff;
-      --text: #171329;
-      --muted: #65617b;
-      --accent: #7c3aed;
-      --accent2: #6d28d9;
-      --border: rgba(20,10,50,.12);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      transition: background .3s, color .3s;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font: inherit;
-      cursor: pointer;
-    }
-
-    .container {
-      width: min(1100px, 90%);
-      margin: auto;
-    }
-
-    .accent {
-      color: var(--accent);
-    }
-
-    .section {
-      padding: 85px 0;
-      scroll-margin-top: 75px;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: clamp(27px, 5vw, 38px);
-      margin-bottom: 12px;
-    }
-
-    .section-desc {
-      text-align: center;
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto 38px;
-    }
-
-    /* ===== NAVIGASI ===== */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-    }
-
-    nav {
-      min-height: 68px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .logo {
-      font-size: 21px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      color: var(--muted);
-      transition: color .2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-
-    .theme-btn, .menu-btn {
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      padding: 8px 11px;
-      border-radius: 10px;
-    }
-
-    .menu-btn {
-      display: none;
-    }
-
-    /* ===== HERO / BERANDA ===== */
-    .hero {
-      min-height: 85vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      background: var(--accent2);
-      filter: blur(150px);
-      opacity: .23;
-      top: 15%;
-      right: 5%;
-      pointer-events: none;
-    }
-
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1.3fr .7fr;
-      align-items: center;
-      gap: 40px;
-      position: relative;
-    }
-
-    .eyebrow {
-      color: var(--accent);
-      font-weight: bold;
-      letter-spacing: 2px;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      font-size: clamp(36px, 6vw, 65px);
-      line-height: 1.15;
-      margin: 15px 0;
-    }
-
-    .hero p {
-      color: var(--muted);
-      max-width: 550px;
-      margin-bottom: 25px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 11px 20px;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 14px;
-      border: 1px solid var(--accent);
-      transition: transform .2s, box-shadow .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px #7c3aed35;
-    }
-
-    .btn-primary {
-      color: white;
-      background: var(--accent2);
-      border-color: var(--accent2);
-    }
-
-    .profile-wrap {
-      display: flex;
-      justify-content: center;
-    }
-
-    .profile-frame {
-      width: min(270px, 75vw);
-      aspect-ratio: 1;
-      border: 2px solid var(--accent);
-      border-radius: 35% 65% 60% 40% / 40% 35% 65% 60%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #7c3aed55, #131326);
-      box-shadow: 0 0 45px #8b5cf633;
-      overflow: hidden;
-      animation: float 5s ease-in-out infinite;
-    }
-
-    .profile-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .profile-placeholder {
-      font-size: 75px;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    /* ===== KARTU DAN GRID ===== */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .card {
-      padding: 24px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      transition: transform .25s, border-color .25s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-    }
-
-    .card-icon {
-      font-size: 30px;
-      margin-bottom: 12px;
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-      font-size: 18px;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    /* ===== BIODATA ===== */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 35px;
-      align-items: start;
-    }
-
-    .about-text p {
-      color: var(--muted);
-      margin-top: 12px;
-    }
-
-    .bio-list {
-      list-style: none;
-    }
-
-    .bio-list li {
-      display: flex;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-    }
-
-    .bio-list strong {
-      min-width: 115px;
-    }
-
-    .bio-list span {
-      color: var(--muted);
-      overflow-wrap: anywhere;
-    }
-
-    /* ===== KEAHLIAN ===== */
-    .skill {
-      margin-bottom: 22px;
-    }
-
-    .skill-info {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-
-    .skill-track {
-      height: 8px;
-      border-radius: 20px;
-      background: var(--border);
-      overflow: hidden;
-    }
-
-    .skill-fill {
-      height: 100%;
-      width: 0;
-      border-radius: 20px;
-      background: linear-gradient(90deg, var(--accent2), var(--accent));
-      transition: width 1.2s ease;
-    }
-
-    /* ===== GALERI ===== */
-    .gallery-item {
-      min-height: 155px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      gap: 10px;
-      background: linear-gradient(135deg, #7c3aed25, var(--card));
-    }
-
-    .gallery-item span {
-      font-size: 38px;
-    }
-
-    /* ===== KONTAK ===== */
-    .contact-box {
-      max-width: 650px;
-      margin: auto;
-      text-align: center;
-      padding: 35px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-    }
-
-    .contact-box p {
-      color: var(--muted);
-      margin: 12px 0 22px;
-    }
-
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    footer {
-      padding: 25px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* ===== ANIMASI SCROLL ===== */
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity .7s, transform .7s;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ===== RESPONSIVE HP ===== */
-    @media (max-width: 760px) {
-      .menu-btn {
-        display: block;
-      }
-
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 68px;
-        left: 0;
-        right: 0;
-        padding: 20px 5%;
-        flex-direction: column;
-        gap: 15px;
-        background: var(--bg);
-        border-bottom: 1px solid var(--border);
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 70px 0;
-      }
-
-      .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .hero p {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .hero-buttons {
-        justify-content: center;
-      }
-
-      .profile-wrap {
-        grid-row: 1;
-      }
-
-      .profile-frame {
-        width: 190px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .section {
-        padding: 65px 0;
-      }
-
-      .contact-box {
-        padding: 25px 18px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation: none !important;
-        transition: none !important;
-      }
-
-      .reveal {
-        opacity: 1;
-        transform: none;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <!-- ===== HEADER ===== -->
-  <header>
-    <nav class="container">
-      <a href="#home" class="logo">MY<span class="accent">PORTO.</span></a>
-
-      <div class="nav-right">
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#home">Beranda</a></li>
-          <li><a href="#about">Tentang</a></li>
-          <li><a href="#biodata">Biodata</a></li>
-          <li><a href="#skills">Keahlian</a></li>
-          <li><a href="#gallery">Galeri</a></li>
-          <li><a href="#contact">Kontak</a></li>
-        </ul>
-
-        <button class="theme-btn" id="themeBtn"
-          aria-label="Ganti tema">☀️</button>
-        <button class="menu-btn" id="menuBtn"
-          aria-label="Buka menu" aria-expanded="false">☰</button>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <!-- ===== BERANDA ===== -->
-    <section class="hero" id="home">
-      <div class="container hero-content">
-        <div class="hero-text">
-          <span class="eyebrow">Welcome to my portfolio</span>
-          <h1>Halo, saya <span class="accent">Nama Kamu</span></h1>
-          <h3>Saya seorang <span class="accent" id="typedText">Pelajar</span></h3>
-          <p>
-            Selamat datang di website pribadi saya.
-            Di sini kamu bisa mengenal saya, melihat keahlian,
-            pengalaman, serta hal-hal yang saya sukai.
-          </p>
-
-          <div class="hero-buttons">
-            <a href="#about" class="btn btn-primary">Kenali Saya ↗</a>
-            <a href="#contact" class="btn">Hubungi Saya</a>
-          </div>
-        </div>
-
-        <div class="profile-wrap">
-          <div class="profile-frame">
-            <!-- Ganti foto-profil.jpg dengan foto milikmu -->
-            <img src="foto-profil.jpg" alt="Foto profil"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <span class="profile-placeholder" style="display:none">👤</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== TENTANG SAYA ===== -->
-    <section class="section" id="about">
-      <div class="container reveal">
-        <h2 class="section-title">Tentang <span class="accent">Saya</span></h2>
-        <p class="section-desc">
-          Sedikit cerita tentang siapa saya dan apa yang saya sukai.
-        </p>
-
-        <div class="about-grid">
-          <div class="about-text">
-            <h3>Kenalan, yuk! 👋</h3>
-            <p>
-              Halo! Saya <strong>Nama Kamu</strong>, seorang pelajar
-              yang senang belajar hal baru, mengembangkan kemampuan,
-              dan mencoba pengalaman yang bermanfaat.
-            </p>
-            <p>
-              Saya percaya bahwa setiap langkah kecil adalah bagian
-              dari perjalanan menuju masa depan yang lebih baik.
-              Website ini menjadi tempat untuk memperkenalkan diri
-              dan mendokumentasikan perjalanan saya.
-            </p>
-          </div>
-
-          <div class="card">
-            <h3>✨ Fakta Tentang Saya</h3>
-            <ul class="bio-list">
-              <li><strong>Hobi</strong><span>Musik, belajar, dan bermain game</span></li>
-              <li><strong>Kepribadian</strong><span>Ramah dan penuh semangat</span></li>
-              <li><strong>Minat</strong><span>Teknologi dan kreativitas</span></li>
-              <li><strong>Tujuan</strong><span>Terus berkembang dan berkarya</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== BIODATA ===== -->
-    <section class="section" id="biodata">
-      <div class="container reveal">
-        <h2 class="section-title">Biodata <span class="accent">Diri</span></h2>
-        <p class="section-desc">
-          Informasi singkat tentang identitas saya.
-        </p>
-
-        <div class="card">
-          <ul class="bio-list">
-            <li><strong>Nama</strong><span>Nama Lengkap Kamu</span></li>
-            <li><strong>Nama Panggilan</strong><span>Nama Panggilan</span></li>
-            <li><strong>Status</strong><span>Pelajar</span></li>
-            <li><strong>Sekolah</strong><span>Nama Sekolah</span></li>
-            <li><strong>Kota</strong><span>Kota Tempat Tinggal</span></li>
-            <li><strong>Motto</strong><span>Terus belajar, terus berkembang.</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== KEAHLIAN ===== -->
-    <section class="section" id="skills">
-      <div class="container reveal">
-        <h2 class="section-title">Keahlian & <span class="accent">Minat</span></h2>
-        <p class="section-desc">
-          Beberapa bidang yang sedang saya pelajari dan kembangkan.
-        </p>
-
-        <div class="grid">
-          <div class="card">
-            <div class="card-icon">💻</div>
-            <h3>Teknologi</h3>
-            <p>Belajar teknologi digital dan dasar pembuatan website.</p>
-          </div>
-          <div class="card">
-            <div class="card-icon">🎨</div>
-            <h3>Kreativitas</h3>
-            <p>Mengembangkan ide, desain, dan karya kreatif.</p>
-          </div>
-          <div class="card">
-            <div class="card-icon">🤝</div>
-            <h3>Kerja Sama</h3>
-            <p>Belajar berkomunikasi dan bekerja bersama tim.</p>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:20px">
-          <h3 style="margin-bottom:20px">Sedang Saya Pelajari</h3>
-
-          <div class="skill">
-            <div class="skill-info"><span>HTML & CSS</span><span>Dasar</span></div>
-            <div class="skill-track"><div class="skill-fill" data-width="45%"></div></div>
-          </div>
-
-          <div class="skill">
-            <div class="skill-info"><span>JavaScript</span><span>Dasar</span></div>
-            <div class="skill-track"><div class="skill-fill" data-width="25%"></div></div>
-          </div>
-
-          <div class="skill">
-            <div class="skill-info"><span>Komunikasi</span><span>Terus berkembang</span></div>
-            <div class="skill-track"><div class="skill-fill" data-width="60%"></div></div>
-          </div>
-          <p style="font-size:12px;color:var(--muted)">
-            Persentase hanya contoh tampilan. Sesuaikan dengan kemampuanmu.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== PENGALAMAN ===== -->
-    <section class="section" id="experience">
-      <div class="container reveal">
-        <h2 class="section-title">Pengalaman & <span class="accent">Prestasi</span></h2>
-        <p class="section-desc">
-          Cerita perjalanan, kegiatan, dan pencapaian saya.
-        </p>
-
-        <div class="grid">
-          <div class="card">
-            <div class="card-icon">🏫</div>
-            <h3>Pengalaman Sekolah</h3>
-            <p>Tambahkan kegiatan atau pengalaman berkesan di sekolah.</p>
-          </div>
-          <div class="card">
-            <div class="card-icon">🏆</div>
-            <h3>Prestasi</h3>
-            <p>Tambahkan penghargaan atau pencapaian yang pernah diraih.</p>
-          </div>
-          <div class="card">
-            <div class="card-icon">🌱</div>
-            <h3>Pengembangan Diri</h3>
-            <p>Catat keterampilan baru dan hal yang sedang dipelajari.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== GALERI ===== -->
-    <section class="section" id="gallery">
-      <div class="container reveal">
-        <h2 class="section-title">Galeri <span class="accent">Saya</span></h2>
-        <p class="section-desc">
-          Kumpulan kegiatan, karya, dan momen favorit.
-        </p>
-
-        <div class="grid">
-          <div class="card gallery-item">
-            <span>📸</span>
-            <h3>Momen Saya</h3>
-            <p>Tambahkan foto kegiatan di sini.</p>
-          </div>
-          <div class="card gallery-item">
-            <span>🎸</span>
-            <h3>Hobi</h3>
-            <p>Tambahkan dokumentasi hobi.</p>
-          </div>
-          <div class="card gallery-item">
-            <span>🚀</span>
-            <h3>Karya Saya</h3>
-            <p>Tambahkan hasil karya atau proyek.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== KONTAK ===== -->
-    <section class="section" id="contact">
-      <div class="container reveal">
-        <h2 class="section-title">Hubungi <span class="accent">Saya</span></h2>
-        <p class="section-desc">
-          Terhubung melalui media sosial yang ingin saya bagikan.
-        </p>
-
-        <div class="contact-box">
-          <h3>Mari Terhubung! 🤝</h3>
-          <p>
-            Punya pertanyaan atau ingin melihat karya saya?
-            Kamu bisa mengunjungi tautan di bawah ini.
-          </p>
-
-          <div class="contact-links">
-            <!-- Ganti # dengan URL akun milikmu -->
-            <a class="btn btn-primary" href="#" data-placeholder-link>Instagram ↗</a>
-            <a class="btn" href="#" data-placeholder-link>GitHub ↗</a>
-            <a class="btn" href="#" data-placeholder-link>Email ↗</a>
-          </div>
-          <p id="contactNotice" style="font-size:12px;margin-bottom:0"></p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <div class="container">
-      <p>© <span id="year"></span> Nama Kamu. Dibuat dengan 💜 dan semangat.</p>
-    </div>
-  </footer>
-
-  <script>
-    // ===== MENU RESPONSIF =====
-    const menuBtn = document.getElementById("menuBtn");
-    const navLinks = document.getElementById("navLinks");
-
-    menuBtn.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("open");
-      menuBtn.setAttribute("aria-expanded", String(isOpen));
-      menuBtn.textContent = isOpen ? "✕" : "☰";
-    });
-
-    document.querySelectorAll(".nav-links a").forEach(link => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.textContent = "☰";
-      });
-    });
-
-    // ===== GANTI TEMA =====
-    const themeBtn = document.getElementById("themeBtn");
-
-    themeBtn.addEventListener("click", () => {
-      document.body.classList.toggle("light");
-      const isLight = document.body.classList.contains("light");
-      themeBtn.textContent = isLight ? "🌙" : "☀️";
-      themeBtn.setAttribute(
-        "aria-label",
-        isLight ? "Gunakan tema gelap" : "Gunakan tema terang"
-      );
-    });
-
-    // ===== EFEK TEKS BERGANTI =====
-    const words = ["Pelajar", "Kreator", "Pembelajar"];
-    const typedText = document.getElementById("typedText");
-    let wordIndex = 0;
-
-    setInterval(() => {
-      wordIndex = (wordIndex + 1) % words.length;
-      typedText.style.opacity = 0;
-
-      setTimeout(() => {
-        typedText.textContent = words[wordIndex];
-        typedText.style.opacity = 1;
-      }, 200);
-    }, 2200);
-
-    // ===== ANIMASI SAAT SCROLL =====
-    const revealElements = document.querySelectorAll(".reveal");
-    const skillFills = document.querySelectorAll(".skill-fill");
-
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-
-            entry.target.querySelectorAll(".skill-fill").forEach(fill => {
-              fill.style.width = fill.dataset.width;
-            });
-
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 });
-
-      revealElements.forEach(el => observer.observe(el));
-    } else {
-      revealElements.forEach(el => el.classList.add("visible"));
-      skillFills.forEach(fill => {
-        fill.style.width = fill.dataset.width;
-      });
-    }
-
-    // ===== TAHUN OTOMATIS =====
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-
-    // ===== PENANDA TAUTAN KONTAK YANG BELUM DIISI =====
-    document.querySelectorAll("[data-placeholder-link]").forEach(link => {
-      link.addEventListener("click", event => {
-        if (link.getAttribute("href") === "#") {
-          event.preventDefault();
-          document.getElementById("contactNotice").textContent =
-            "Tautan ini belum diatur. Ganti URL pada kode HTML.";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M Azzam Kamil - Future Sportswear Entrepreneur & Gamer</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brandCyan: '#06b6d4',
+                        brandCyanGlow: '#22d3ee',
+                        brandOrange: '#f97316',
+                        brandOrangeGlow: '#fb923c',
+                        darkSlate: '#0b1120',
+                        cardSlate: '#1e293b',
+                        accentSlate: '#334155'
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                        display: ['Teko', 'Outfit', 'sans-serif']
+                    }
+                }
+            }
         }
-      });
-    });
-  </script>
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0b1120;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Teko', sans-serif;
+        }
+
+        /* Modern Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #06b6d4, #f97316);
+            border-radius: 4px;
+        }
+
+        /* Subtle Sports-Tech Grid Overlay */
+        .tech-grid {
+            background-size: 36px 36px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Glowing text effect */
+        .neon-glow-cyan {
+            text-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+        }
+        .neon-glow-orange {
+            text-shadow: 0 0 12px rgba(249, 115, 22, 0.5);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen selection:bg-brandOrange selection:text-white tech-grid">
+
+    <!-- Canvas Partikel Interaktif -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 w-full z-50 px-4 sm:px-8 py-4">
+        <nav class="max-w-6xl mx-auto glass-panel rounded-2xl px-6 py-3 flex items-center justify-between shadow-2xl">
+            <!-- Brand Logo -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brandCyan to-brandOrange flex items-center justify-center text-slate-950 font-black font-display text-2xl tracking-wider shadow-lg group-hover:scale-105 transition-transform">
+                    MAK
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-white text-sm tracking-wide group-hover:text-brandCyan transition-colors">M Azzam Kamil</span>
+                    <span class="text-[10px] tracking-widest uppercase text-brandOrange font-semibold">Sportswear Visionary</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8 font-semibold text-xs tracking-wider uppercase text-slate-300">
+                <a href="#biodata" class="hover:text-brandCyan transition-colors">Biodata</a>
+                <a href="#passion" class="hover:text-brandCyan transition-colors">Gaming & Olahraga</a>
+                <a href="#vision" class="hover:text-brandCyan transition-colors">Visi Bisnis</a>
+                <a href="#contact" class="hover:text-brandCyan transition-colors">Kontak</a>
+            </div>
+
+            <!-- CTA & Mobile Menu Button -->
+            <div class="flex items-center gap-3">
+                <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brandCyan to-brandOrange text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md hover:shadow-brandCyan/30 hover:scale-105">
+                    <i class="fas fa-paper-plane text-xs"></i>
+                    <span>Kontak</span>
+                </a>
+                
+                <button id="mobile-menu-btn" aria-label="Toggle Mobile Menu" class="md:hidden p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:text-white">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden mt-3 max-w-6xl mx-auto glass-panel rounded-2xl p-5 shadow-2xl flex flex-col space-y-4 font-semibold text-sm uppercase tracking-wider">
+            <a href="#biodata" class="mobile-link hover:text-brandCyan py-1">Biodata</a>
+            <a href="#passion" class="mobile-link hover:text-brandCyan py-1">Gaming & Olahraga</a>
+            <a href="#vision" class="mobile-link hover:text-brandCyan py-1">Visi Bisnis</a>
+            <a href="#contact" class="mobile-link hover:text-brandCyan py-1">Kontak</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen pt-32 pb-20 px-4 sm:px-8 flex items-center justify-center relative z-10">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Hero Content -->
+            <div class="lg:col-span-7 text-center lg:text-left">
+                <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-brandCyan/10 text-brandCyan border border-brandCyan/30 mb-6 inline-flex items-center gap-2 uppercase tracking-widest">
+                    <i class="fas fa-bolt text-brandOrange"></i> Aspiring Sportswear Entrepreneur & Gamer
+                </span>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none mb-6 uppercase">
+                    <span class="block text-white">M Azzam</span>
+                    <span class="bg-gradient-to-r from-brandCyan via-brandOrangeGlow to-brandOrange bg-clip-text text-transparent">
+                        Kamil
+                    </span>
+                </h1>
+
+                <p class="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 mb-8 font-light leading-relaxed">
+                    Pemuda kreatif berusia <span class="text-brandCyan font-bold">15 tahun</span> asal Bandung dengan passion mendalam di bidang <span class="text-brandOrange font-bold">Game & Olahraga</span>, berambisi mendirikan brand apparel olahraga modern kelas dunia.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10">
+                    <a href="#vision" class="px-8 py-4 rounded-xl bg-gradient-to-r from-brandCyan to-brandOrange text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:shadow-brandCyan/40 hover:scale-105 flex items-center gap-2">
+                        <i class="fas fa-lightbulb text-xs"></i>
+                        <span>Lihat Visi Bisnis</span>
+                    </a>
+                    <a href="#biodata" class="px-8 py-4 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all border border-slate-700 flex items-center gap-2">
+                        <i class="fas fa-user text-xs text-brandCyan"></i>
+                        <span>Detail Biodata</span>
+                    </a>
+                </div>
+
+                <!-- Live Quick Stats Counter -->
+                <div class="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <h4 class="text-2xl sm:text-3xl font-black text-brandCyan font-display" data-target="15">0</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold">Usia Muda (Tahun)</p>
+                    </div>
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <h4 class="text-2xl sm:text-3xl font-black text-brandOrange font-display" data-target="100">%</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold">Semangat Entrepreneur</p>
+                    </div>
+                    <div class="glass-card p-3 rounded-xl text-center">
+                        <h4 class="text-2xl sm:text-3xl font-black text-emerald-400 font-display" data-target="2030">0</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-semibold">Target Launch Brand</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Esports / Sports Player HUD Card -->
+            <div class="lg:col-span-5">
+                <div class="glass-panel p-6 rounded-3xl relative overflow-hidden group shadow-2xl border-brandCyan/20">
+                    <!-- Glow Accents -->
+                    <div class="absolute -top-12 -right-12 w-40 h-40 bg-brandCyan/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-brandOrange/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <!-- Card Header -->
+                    <div class="flex items-center justify-between border-b border-slate-700/60 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <span class="w-12 h-12 rounded-2xl bg-brandCyan/10 border border-brandCyan/30 flex items-center justify-center font-display text-3xl font-bold text-brandCyan">06</span>
+                            <div>
+                                <h3 class="text-base font-black text-white leading-tight">FOUNDER CARD</h3>
+                                <p class="text-[10px] text-slate-400 tracking-widest uppercase">ID: MAK-BDG-2011</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-brandOrange/10 border border-brandOrange/30 text-brandOrange text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-brandOrange animate-ping"></span>
+                            VISIONARY
+                        </span>
+                    </div>
+
+                    <!-- Graphic Avatar Placeholder -->
+                    <div class="aspect-square rounded-2xl bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700/80 flex flex-col items-center justify-center p-6 relative overflow-hidden mb-6">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10"></div>
+                        <i class="fas fa-gamepad text-7xl text-brandCyan/90 mb-3 z-0 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="z-20 text-center">
+                            <h4 class="text-2xl font-black text-white font-display tracking-wider">M AZZAM KAMIL</h4>
+                            <p class="text-xs text-brandOrange font-bold uppercase tracking-widest">Future Sportswear Brand Owner</p>
+                        </div>
+                    </div>
+
+                    <!-- HUD Attributes -->
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block font-semibold">GAMING</span>
+                            <span class="text-lg font-bold text-brandCyan font-display">95</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block font-semibold">SPORTS</span>
+                            <span class="text-lg font-bold text-brandOrange font-display">92</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block font-semibold">BIZNIS</span>
+                            <span class="text-lg font-bold text-emerald-400 font-display">90</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section Biodata / Card Detail -->
+    <section id="biodata" class="py-20 px-4 sm:px-8 relative z-10 bg-slate-950/80">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-brandCyan mb-2 block">Informasi Diri</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Biodata Lengkap</h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-brandCyan to-brandOrange mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card 1: Nama Lengkap -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-brandCyan/10 border border-brandCyan/30 flex items-center justify-center text-brandCyan text-2xl shrink-0">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Nama Lengkap</span>
+                        <h3 class="text-lg font-bold text-white mt-1">M Azzam Kamil</h3>
+                        <p class="text-xs text-slate-400 mt-1">Inisial Logo: MAK</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Umur -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-brandOrange/10 border border-brandOrange/30 flex items-center justify-center text-brandOrange text-2xl shrink-0">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Usia Saat Ini</span>
+                        <h3 class="text-lg font-bold text-white mt-1">15 Tahun</h3>
+                        <p class="text-xs text-slate-400 mt-1">Generasi Muda Kreatif</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Tempat & Tanggal Lahir -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-400/10 border border-emerald-400/30 flex items-center justify-center text-emerald-400 text-2xl shrink-0">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Tempat & Tanggal Lahir</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Bandung, 06 Sep 2011</h3>
+                        <p class="text-xs text-slate-400 mt-1">Jawa Barat, Indonesia</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Hobi -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl shrink-0">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Hobi & Kegemaran</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Main Game & Olahraga</h3>
+                        <p class="text-xs text-slate-400 mt-1">Kombinasi Strategi Esports & Fisik</p>
+                    </div>
+                </div>
+
+                <!-- Card 5: Cita-cita -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4 md:col-span-2 lg:col-span-2 border-brandOrange/40 bg-brandOrange/5">
+                    <div class="w-14 h-14 rounded-2xl bg-brandOrange/20 border border-brandOrange/40 flex items-center justify-center text-brandOrange text-2xl shrink-0">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-brandOrange font-bold uppercase tracking-wider">Cita-Cita Impian</span>
+                        <h3 class="text-xl font-extrabold text-white mt-1">Pengusaha Brand Olahraga</h3>
+                        <p class="text-xs text-slate-300 mt-1">Menciptakan brand apparel & pakaian olahraga berdesain modern, berteknologi tinggi, serta terjangkau untuk atlet dan penggiat esports.</p>
+                    </div>
+                </div>
+
+                <!-- Card 6: Alamat Lengkap -->
+                <div class="glass-card p-6 rounded-2xl flex items-start gap-4 md:col-span-2 lg:col-span-3">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-2xl shrink-0">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Alamat Domisili Lengkap</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Jl. Panumbang Jaya Dalam, Gang Haji Arwani RT 04 RW 04</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Bandung, Jawa Barat, Indonesia</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Dual Passion: Gaming & Olahraga -->
+    <section id="passion" class="py-20 px-4 sm:px-8 relative z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-brandOrange mb-2 block">Karakter & Minat</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Dual Passion: Gaming & Olahraga</h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-brandOrange to-brandCyan mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Gaming Pillar Card -->
+                <div class="glass-panel p-8 rounded-3xl relative overflow-hidden border-brandCyan/30">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-brandCyan/20 text-brandCyan flex items-center justify-center text-2xl font-bold">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Esports & Gaming Strategy</h3>
+                            <p class="text-xs text-slate-400">Fokus pada koordinasi refleks dan taktik digital</p>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                        Melalui game, Azzam mengasah koordinasi cepat, berpikir analitis, dan merancang strategi tim under-pressure. Prinsip gaming modern juga menginspirasi desain jersey apparel yang sporty futuristik.
+                    </p>
+
+                    <!-- Skill Bars Gaming -->
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Refleks & Reaksi Cepat</span>
+                                <span class="text-brandCyan">94%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-brandCyan to-blue-500 h-full rounded-full" style="width: 94%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Komunikasi Tim Online</span>
+                                <span class="text-brandCyan">90%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-brandCyan to-teal-400 h-full rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Olahraga Pillar Card -->
+                <div class="glass-panel p-8 rounded-3xl relative overflow-hidden border-brandOrange/30">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-brandOrange/20 text-brandOrange flex items-center justify-center text-2xl font-bold">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Athletic & Physical Training</h3>
+                            <p class="text-xs text-slate-400">Kebugaran fisik dan disiplin lapangan</p>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                        Olahraga adalah pondasi fisik dan karakter. Menjaga stamina tubuh memberikan energi positif untuk mewujudkan impian bisnis apparel yang mengerti kebutuhan riil para atlet.
+                    </p>
+
+                    <!-- Skill Bars Olahraga -->
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Stamina & Daya Tahan</span>
+                                <span class="text-brandOrange">92%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-brandOrange to-amber-500 h-full rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Semangat Kerja Sama</span>
+                                <span class="text-brandOrange">96%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-gradient-to-r from-brandOrange to-red-500 h-full rounded-full" style="width: 96%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Visi Bisnis Brand Olahraga -->
+    <section id="vision" class="py-20 px-4 sm:px-8 relative z-10 bg-slate-950/80">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-brandCyan mb-2 block">Cita-Cita Utama</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Visi Brand Olahraga Impian</h2>
+                <p class="text-sm text-slate-400 max-w-xl mx-auto mt-2">Koleksi konsep sportswear masa depan yang menggabungkan style esports modern dan kenyamanan performa atletik.</p>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-brandCyan to-brandOrange mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Product Category Vision Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Category 1 -->
+                <div class="glass-card p-6 rounded-3xl text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-brandCyan/10 border border-brandCyan/30 text-brandCyan flex items-center justify-center text-3xl mx-auto mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Performance Jersey</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Pakaian olahraga berbahan breathable cepat kering dengan motif neon esports futuristik.</p>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="glass-card p-6 rounded-3xl text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-brandOrange/10 border border-brandOrange/30 text-brandOrange flex items-center justify-center text-3xl mx-auto mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Athletic Footwear</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Sepatu olahraga ringan dengan bantalan responsif untuk mendukung akselerasi cepat.</p>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="glass-card p-6 rounded-3xl text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 flex items-center justify-center text-3xl mx-auto mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-socks"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Aksesoris Olahraga</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Kaos kaki grip, wristband, dan tas gym ergonomis berstandar tinggi.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Kontak -->
+    <section id="contact" class="py-20 px-4 sm:px-8 relative z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-brandOrange mb-2 block">Hubungi Saya</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white uppercase font-display">Kontak & Lokasi</h2>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-brandOrange to-brandCyan mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Contact Direct Info -->
+                <div class="lg:col-span-5 space-y-4">
+                    
+                    <div class="glass-card p-6 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl shrink-0">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Alamat Domisili</span>
+                            <p class="text-xs font-bold text-white mt-1">Jl. Panumbang Jaya Dalam, Gang Haji Arwani RT 04 RW 04, Bandung</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-brandCyan/10 border border-brandCyan/30 flex items-center justify-center text-brandCyan text-xl shrink-0">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Email</span>
+                            <p class="text-sm font-bold text-white mt-0.5">m.azzam.kamil@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-400/10 border border-emerald-400/30 flex items-center justify-center text-emerald-400 text-xl shrink-0">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">WhatsApp</span>
+                            <p class="text-sm font-bold text-white mt-0.5">+62 812-XXXX-XXXX</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl text-center">
+                        <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider block mb-4">Media Sosial</span>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brandCyan hover:text-slate-950 text-slate-300 flex items-center justify-center transition-all border border-slate-700">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" aria-label="TikTok" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brandCyan hover:text-slate-950 text-slate-300 flex items-center justify-center transition-all border border-slate-700">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="#" aria-label="YouTube" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brandCyan hover:text-slate-950 text-slate-300 flex items-center justify-center transition-all border border-slate-700">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Form Pesan Interaktif -->
+                <div class="lg:col-span-7">
+                    <form id="contact-form" class="glass-panel p-6 sm:p-8 rounded-3xl space-y-4 shadow-2xl">
+                        <h3 class="text-lg font-bold text-white mb-2">Kirim Pesan Langsung</h3>
+                        
+                        <div>
+                            <label for="name" class="block text-xs font-semibold text-slate-300 uppercase mb-1">Nama Lengkap</label>
+                            <input type="text" id="name" required placeholder="Masukkan nama Anda" class="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brandCyan transition-all">
+                        </div>
+
+                        <div>
+                            <label for="contact-info" class="block text-xs font-semibold text-slate-300 uppercase mb-1">Email / WhatsApp</label>
+                            <input type="text" id="contact-info" required placeholder="Email atau kontak Anda" class="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brandCyan transition-all">
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-xs font-semibold text-slate-300 uppercase mb-1">Pesan / Diskusi</label>
+                            <textarea id="message" rows="4" required placeholder="Tuliskan pesan atau saran kolaborasi di sini..." class="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brandCyan transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brandCyan to-brandOrange text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-brandCyan/40 hover:scale-[1.01] flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane text-xs"></i>
+                            <span>Kirim Pesan Ke Azzam</span>
+                        </button>
+
+                        <div id="form-toast" class="hidden p-3 rounded-xl text-center text-xs font-bold transition-all"></div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 text-center text-xs text-slate-500 border-t border-slate-800/80 relative z-10">
+        <p>© 2026 M Azzam Kamil. All rights reserved.</p>
+        <p class="mt-1">Jl. Panumbang Jaya Dalam, Gang Haji Arwani RT 04 RW 04, Bandung 🇮🇩</p>
+    </footer>
+
+    <!-- JavaScript Vanilla Logic -->
+    <script>
+        // 1. Mobile Navbar Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 2. Animated Stats Counter
+        const counters = document.querySelectorAll('[data-target]');
+        let animated = false;
+
+        function runCounters() {
+            const heroSection = document.getElementById('hero');
+            const rect = heroSection.getBoundingClientRect();
+            if (rect.top <= window.innerHeight && !animated) {
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    let count = 0;
+                    const increment = Math.ceil(target / 40);
+                    const timer = setInterval(() => {
+                        count += increment;
+                        if (count >= target) {
+                            counter.innerText = (counter.innerText.includes('%') ? target + '%' : target);
+                            clearInterval(timer);
+                        } else {
+                            counter.innerText = (counter.innerText.includes('%') ? count + '%' : count);
+                        }
+                    }, 40);
+                });
+                animated = true;
+            }
+        }
+
+        // 3. Canvas Background Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#06b6d4';
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor(width / 24);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(6, 182, 212, ${1 - dist / 110})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // 4. Form Submission Notification
+        const contactForm = document.getElementById('contact-form');
+        const formToast = document.getElementById('form-toast');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formToast.classList.remove('hidden');
+            formToast.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border', 'border-emerald-500/40');
+            formToast.innerText = 'Pesan Anda berhasil dikirimkan ke M Azzam Kamil!';
+            contactForm.reset();
+
+            setTimeout(() => {
+                formToast.classList.add('hidden');
+            }, 5000);
+        });
+
+        // Initialize On Load
+        window.onload = function() {
+            resizeCanvas();
+            initParticles();
+            animateCanvas();
+            runCounters();
+        };
+
+        window.onresize = function() {
+            resizeCanvas();
+            initParticles();
+        };
+
+        window.onscroll = function() {
+            runCounters();
+        };
+    </script>
 </body>
 </html>
